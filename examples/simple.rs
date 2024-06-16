@@ -8,6 +8,9 @@ async fn main() {
     let host = "github.com".to_owned();
     let scopes = "read:user".to_owned();
     let flow = DeviceFlow::new(client_id, host, scopes);
-    let cred = flow.auth(retrieve_refresh_token).await.unwrap();
-    println!("Access token: {}", cred.access_token);
+    let cred = flow
+        .refresh_or_authorize(retrieve_refresh_token)
+        .await
+        .unwrap();
+    dbg!(cred);
 }
