@@ -3,6 +3,7 @@
 // More info: https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app#using-the-device-flow-to-generate-a-user-access-token
 
 use serde_derive::{Deserialize, Serialize};
+use std::time::Duration;
 use thiserror::Error;
 use tokio::time;
 
@@ -59,7 +60,7 @@ struct AnotherResponse {
     y: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug, Display)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Credentials {
     pub access_token: String,
     pub expires_in: u64,
@@ -264,10 +265,10 @@ impl Into<DeviceFlowError> for GithubAPIErrorVariant {
 }
 
 impl Credentials {
-    fn try_to_string(&self) -> Result<String, serde_json::Error> {
+    pub fn try_to_string(&self) -> Result<String, serde_json::Error> {
         serde_json::to_string(self)
     }
-    fn try_from_string(s: &str) -> Result<Self, serde_json::Error> {
+    pub fn try_from_string(s: &str) -> Result<Self, serde_json::Error> {
         serde_json::from_str(s)
     }
 }
