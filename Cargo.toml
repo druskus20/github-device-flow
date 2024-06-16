@@ -1,6 +1,6 @@
 [package]
 name = "github-device-oauth"
-version = "0.1.0" 
+version = "0.2.0" 
 authors = ["Pedro Burgos <druskus20@gmail.com>"]
 license = "MIT"
 description = "A client for Github's OAuth Device Flow"
