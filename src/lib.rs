@@ -45,7 +45,7 @@ pub enum DeviceFlowError {
     UnreachableError,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 struct VerificationParams {
     device_code: String,
     user_code: String,
@@ -54,13 +54,7 @@ struct VerificationParams {
     interval: u64,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-struct AnotherResponse {
-    x: i32,
-    y: i32,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Credentials {
     pub access_token: String,
     pub expires_in: u64,
