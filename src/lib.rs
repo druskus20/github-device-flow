@@ -62,6 +62,12 @@ pub struct Credentials {
     pub refresh_token_expires_in: u64,
     pub scope: String,
     pub token_type: String,
+    #[serde(default = "timestamp")]
+    pub timestamp: u64,
+}
+
+fn timestamp() -> u64 {
+    chrono::Utc::now().timestamp() as u64
 }
 
 #[derive(Serialize, Deserialize, Debug)]
