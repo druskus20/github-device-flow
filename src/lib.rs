@@ -113,7 +113,7 @@ impl DeviceFlow {
 
     pub async fn refresh_or_authorize(
         &self,
-        retrive_refresh_token: impl FnOnce() -> Result<String, DeviceFlowError>,
+        refresh_token: Option<String>,
     ) -> Result<Credentials, DeviceFlowError> {
         let authorize_and_verify = || async {
             let vp = self.verify_device().await?;
@@ -123,8 +123,8 @@ impl DeviceFlow {
             self.authorize(&vp).await
         };
 
-        match retrive_refresh_token() {
-            Ok(token) => match self.refresh(token).await {
+        match refresh_token {
+            Some(token) => match self.refresh(token).await {
                 Ok(credentials) => Ok(credentials),
                 Err(e) => match e {
                     DeviceFlowError::ExpiredTokenError
@@ -133,8 +133,7 @@ impl DeviceFlow {
                     e => Err(e),
                 },
             },
-            Err(DeviceFlowError::RefreshTokenNotFound) => authorize_and_verify().await,
-            Err(e) => Err(e),
+            None => authorize_and_verify().await,
         }
     }
 
